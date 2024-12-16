@@ -31,7 +31,6 @@ class ApiRequest:
         return auth
 
     def find_v2(self, code: str) -> Response:
-        code = code.strip()
         url = f'{self.find_product_v2_url}?country-code=ua&keyword={code}&locale=uk&size=200'
         response = requests.get(url, headers=self.v2_auth)
         return response
@@ -45,6 +44,9 @@ class ApiRequest:
         if last_id:
             url = f'{self.delete_url}/{last_id}'
             response = requests.delete(url, headers=self.v1_auth)
+            if response.status_code != 204:
+                self.get_v1_auth()
+            print(f'Delete: {last_id} Status code: {response.status_code}')
             return response
         return None
 
