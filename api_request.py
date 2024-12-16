@@ -7,7 +7,7 @@ class ApiRequest:
     def __init__(self):
         self.find_product_v2_url = secrets['FIND_PRODUCT_V2_URL']
         self.delete_url = secrets['DELETE_URL']
-        self.v1_auth = self.get_v1_auth()
+        self.v1_auth = None
         self.v2_auth = {'Authorization': secrets['V2_AUTH']}
         self.anon_token_url = secrets['ANON_TOKEN_URL']
         self.login_url = secrets['LOGIN_URL']
@@ -27,6 +27,7 @@ class ApiRequest:
         login_response = requests.post(self.login_url, json=login_body, headers=header)
         customer_token = login_response.json()['token']
         auth = {'Authorization': f'Bearer {customer_token}'}
+        self.v1_auth = auth
         return auth
 
     def find_v2(self, code: str) -> Response:

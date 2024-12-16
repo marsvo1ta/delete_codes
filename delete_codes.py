@@ -4,6 +4,7 @@ from api_request import ApiRequest
 
 api = ApiRequest()
 
+
 def process_excel_column_a(file):
     workbook = load_workbook(file)
     sheet = workbook.active
